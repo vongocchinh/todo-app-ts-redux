@@ -48,7 +48,9 @@ export const DELETE_USER_ASYNC=createAsyncThunk("Users/deleteUser",async (id:str
 
 
 const data: UserModel[] =[
-    {id:'1',name:"Samsung A20",price:1000,des:"Mới"},
+    {id:'1',name:"product 1",price:1000,des:"Mới"},
+    {id:'2',name:"product 2",price:2000,des:"Mới"},
+    {id:'3',name:"product 3",price:3000,des:"Mới"},
 ]
 
 
