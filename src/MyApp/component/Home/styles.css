@@ -1,0 +1,126 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.container{
+    width: auto;
+    height: auto;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 20px;
+}
+
+.list{
+    width: 31%;
+    margin-top: 50px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: #EAEAEA;
+    min-height: 250px;
+    border-radius: 5px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.item{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px;
+    
+}
+
+.div{
+    width: 60%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.div p{
+    color: black;
+    font-size: 13px;
+}
+.div-2{
+    width: 20%;
+    height: auto;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.div-3 p{
+    font-size: 14px;
+}
+.title{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 0px 10px;
+}
+.title p{
+    font-weight: 600;
+}
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+input{
+    width: 250px;
+    height: 30px;
+    margin-bottom: 10px;
+    outline: none;
+   outline: none;
+    border-radius: 5px;
+}
+input[type='text']{
+    padding-left: 10px;
+    border: 1px solid #9F9F9F;
+}
+
+input[type='number']{
+    padding-left: 10px;
+    border: 1px solid #9F9F9F;
+}
+
+input[type="submit"]{
+    background-color: #007BFF;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+
+.list-item{
+    width: 100%;
+    height: 200px;
+    overflow-y: auto;
+}
+
+@media only screen and (max-width: 1000px)  {
+    .container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .container .list{
+        width: 80%;
+    }
+}
