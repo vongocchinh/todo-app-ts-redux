@@ -1,10 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit';
-import User from './../reducer/User/User';
+import Product from './../reducer/Product/Product';
 import Cart from './../reducer/Cart/Cart';
 const store=configureStore({
     reducer:{
         Cart,
-        User,
+        Product,
     }
 })
 export type RootState=ReturnType<typeof store.getState>

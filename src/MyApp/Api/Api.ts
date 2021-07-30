@@ -1,22 +1,22 @@
 
-import { UserModel } from './../reducer/User/User';
+import { ProductModel } from '../reducer/Product/Product';
 
 
 
-const validateUserModel=(user:UserModel):Promise<UserModel>=>new Promise((resolve,reject)=>{
+export const validateProductModel=(product:ProductModel):Promise<ProductModel>=>new Promise((resolve,reject)=>{
     setTimeout(() => {
-        if(user.name===''){
+        if(product.name===''){
             reject('Thất Bai 201');
         }else
-        if(user.name&&user.name.length>0){
-            // reject("ok 200")
+        if(product.name&&product.name.length>0){
+            // reject("ok 200")productprod
         }
-        resolve(user);
+        resolve(product);
     }, 500);
 })
 
 
-export const validationDeleteUser=(id:string):Promise<string> =>new Promise((resolve,reject)=>{
+export const validationDeleteProduct=(id:string):Promise<string> =>new Promise((resolve,reject)=>{
     setTimeout(() => {
         if(id===''){
             reject('Mess error');
@@ -26,4 +26,11 @@ export const validationDeleteUser=(id:string):Promise<string> =>new Promise((res
 })
 
 
-export default validateUserModel;
+export const validationUpdate=(product:ProductModel):Promise<ProductModel>=> new Promise((resolve,reject)=>{
+    setTimeout(() => {
+        if(product.id===''){
+            reject("error 2001")
+        }
+        resolve(product);
+    }, 500);
+})
