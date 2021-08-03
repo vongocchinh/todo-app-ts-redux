@@ -10,24 +10,24 @@ export interface ProductModel{
     des:string
 }
 
-export enum ValidationProduct{
-    Fulfilled,
-    Pending,
-    Reject
-}
+    export enum ValidationProduct{
+        Fulfilled,
+        Pending,
+        Reject
+    }
 
 
-export enum ValidationDeleteProduct{
-    Fulfilled,
-    Pending,
-    Reject
-}
+    export enum ValidationDeleteProduct{
+        Fulfilled,
+        Pending,
+        Reject
+    }
 
-export enum ValidationUpdateProduct{
-    Fulfilled,
-    Pending,
-    Reject
-}
+    export enum ValidationUpdateProduct{
+        Fulfilled,
+        Pending,
+        Reject
+    }
 
 // interface InitialState{
 //     Products:ProductModel[],
@@ -67,7 +67,7 @@ export const Update_Product_ASYNC=createAsyncThunk('Products/updateProduct',asyn
 
 const data: ProductModel[] =[
     {id:'1',name:"product 1",price:1000,des:"Mới"},
-    {id:'2',name:"aroduct 1",price:1000,des:"Mới"}
+    {id:'2',name:"product 2",price:1000,des:"Mới"}
 ]
 
 
@@ -85,7 +85,9 @@ const productAdapter=createEntityAdapter<ProductModel>(
 );
 const initialState =productAdapter.getInitialState<InitialState>({
     validationProduct:undefined,
-    messageError:undefined
+    messageError:undefined,
+    validationDeleteProduct:undefined,
+    validationUpdateProduct:undefined
 })
 
 const initialStateData=productAdapter.upsertMany(initialState,data);

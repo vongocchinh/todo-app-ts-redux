@@ -16,7 +16,7 @@ const Cart:React.FC<CartTS>=()=> {
     return (
         <div className="list">
                 <div className="item">
-                    <h2>CART ME</h2>
+                    <h3>CART ME</h3>
                     <h3>{GET_TONG_CART}</h3>
                 </div>
                 <div className="list-item">

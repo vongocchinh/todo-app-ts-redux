@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './styles.css';
 import Form from './../Form/Form';
 
@@ -30,19 +30,20 @@ const Home: React.FC<HomeInterface> = () => {
     const VALIDATION_DELETE = useAppSelector(GET_VALIDATION_DELETE_Product);
     const VALIDATION_UPDATE=useAppSelector(GET_VALIDATION_UPDATE_PRODUCT);
     const dispatch = useAppDispatch();
-    if (VALIDATION === 0) {
-        toast.info("ADD Product SUCCESS");
-        dispatch(setValidationAddProduct(''));
-    }
-    if (VALIDATION_DELETE === 0) {
-        toast.info("DELETE SUCCESS");
-        dispatch(setValidationDeleteProduct(''));
-    }
-
-    if(VALIDATION_UPDATE===0){
-        toast.info("Update success");
-        dispatch(setValidationUpdateProduct(''))
-    }
+    useEffect(() => {
+        if (VALIDATION === 0) {
+            toast.info("ADD Product SUCCESS");
+            dispatch(setValidationAddProduct(''));
+        }
+        if (VALIDATION_DELETE === 0) {
+            toast.info("DELETE SUCCESS");
+            dispatch(setValidationDeleteProduct(''));
+        }
+        if(VALIDATION_UPDATE===0){
+            toast.info("Update success");
+            dispatch(setValidationUpdateProduct(''))
+        }
+    }, [VALIDATION,VALIDATION_DELETE,VALIDATION_UPDATE,dispatch])
 
     const OnDelete = (id: string) => {
         dispatch(DELETE_Product_ASYNC(id));
