@@ -3,7 +3,7 @@ import './styles.css';
 import Form from './../Form/Form';
 
 import { useSelector } from 'react-redux'
-import {  GET_VALIDATION_DELETE_Product, GET_VALIDATION_UPDATE_PRODUCT, selectAllProduct,  setValidationAddProduct, setValidationDeleteProduct, setValidationUpdateProduct } from '../../reducer/Product/Product';
+import {  CountAction, countSizeProductNumber, GET_VALIDATION_DELETE_Product, GET_VALIDATION_UPDATE_PRODUCT, ObjectCount, selectAllProduct,  selectProductIds,  setValidationAddProduct, setValidationDeleteProduct, setValidationUpdateProduct } from '../../reducer/Product/Product';
 import { useAppDispatch, useAppSelector } from './../../reducer/store.hooks';
 import { addCart } from '../../reducer/Cart/Cart';
 import { toast } from 'react-toastify';
@@ -25,6 +25,9 @@ const Home: React.FC<HomeInterface> = () => {
     });
     // const ProductStore = useSelector(GetALLDataProduct);
     const ProductStore = useSelector(selectAllProduct);
+    const SEID=useAppSelector(selectProductIds);
+    console.log(SEID);
+    
     // const PID=useSelector<RootState>(state=>selectByProductID(state,'1'))
     const VALIDATION = useAppSelector(GET_VALIDATION_Product);
     const VALIDATION_DELETE = useAppSelector(GET_VALIDATION_DELETE_Product);
@@ -63,6 +66,8 @@ const Home: React.FC<HomeInterface> = () => {
             des:product.des
         })
     }
+
+    const count:ObjectCount={count:10}
     return (
         <div>
             <h2 style={{textAlign:"center",marginTop:"50px"}}>APP TODO LIST</h2>
@@ -73,10 +78,10 @@ const Home: React.FC<HomeInterface> = () => {
                     <div className="div">
                         <p>Name</p>
                         <p>Price</p>
-                        <p>Des</p>
+                        <p onClick={()=>dispatch(countSizeProductNumber(115))} >Des</p>
                     </div>
                     <div className="div-3">
-                        <p>Option</p>
+                        <p onClick={()=>dispatch(CountAction(count))}>Option</p>
                     </div>
                 </div>
                 <div className="list-item">
