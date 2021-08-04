@@ -55,6 +55,7 @@ const ProductSlice = createSlice({
             state.validationUpdateProduct = undefined;
         },
         countSizeProduct: (state, action: PayloadAction<number[]>) => {
+            // productAdapter.getSelectors().selectAll;
         },
         countSizeProductNumber: (state, action: PayloadAction<number>) => {
         },
