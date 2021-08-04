@@ -7,7 +7,7 @@ type ProductModel={
     description: string,
     brand:string,
     sale:number,
-    images:object
+    images:string
 }
 
 type ProductModelAdd={
@@ -16,7 +16,7 @@ type ProductModelAdd={
     description: string,
     brand:string,
     sale:number,
-    images:object
+    images:string
 }
 interface CartModel extends ProductModel{
     id_cart:string,

@@ -1,6 +1,7 @@
 
 import { ProductModel, ProductModelAdd } from '../reducer/Product/type.product';
 import GET_API from './../util/getApi';
+import axios from 'axios';
 
 
 export const GET_PRODUCT = (): Promise<ProductModel[]> => new Promise((resolve, reject) => {
@@ -29,29 +30,34 @@ export const GET_PRODUCT = (): Promise<ProductModel[]> => new Promise((resolve, 
 
 
 export const validateProductModelAdd = (product: ProductModelAdd): Promise<ProductModel> => new Promise((resolve, reject) => {
+    const formData = new FormData();
     if (product) {
-        GET_API("/product", 'POST', {
-            brand: product.brand,
-            description: product.description,
-            images: product.images,
-            name: product.name,
-            price: product.price,
-            sale: product.sale
-        }).then((res: any) => {
-            if (res.status === 200) {
-                // resolve()
-                var product: ProductModel = {
-                    _id: res.data._id,
-                    brand: res.data.brand,
-                    description: res.data.description,
-                    images: {},
-                    name: res.data.name,
-                    price: res.data.price,
-                    sale: res.data.sale
+        formData.append("file",product.images);
+        formData.append("upload_preset","a2sb3avp")
+         axios.post('https://api.cloudinary.com/v1_1/chinh/image/upload',formData).then(async res=>{
+            const images=await res.data.secure_url;
+            GET_API("/product", 'POST', {
+                brand: product.brand,
+                description: product.description,
+                images: images,
+                name: product.name,
+                price: product.price,
+                sale: product.sale
+            }).then((res: any) => {
+                if (res.status === 200) {
+                    var product: ProductModel = {
+                        _id: res.data._id,
+                        brand: res.data.brand,
+                        description: res.data.description,
+                        images:images,
+                        name: res.data.name,
+                        price: res.data.price,
+                        sale: res.data.sale
+                    }
+                    resolve(product)
                 }
-                resolve(product)
-            }
-        });
+            });
+    })
     }
 })
 
@@ -76,7 +82,7 @@ export const validationUpdate = (product: ProductModel): Promise<ProductModel> =
                 _id: product._id,
                 brand: product.brand,
                 description: product.description,
-                images: {},
+                images: product.images,
                 name: product.name,
                 price: product.price,
                 sale: product.sale
@@ -86,7 +92,7 @@ export const validationUpdate = (product: ProductModel): Promise<ProductModel> =
                         _id: product._id,
                         brand: product.brand,
                         description: product.description,
-                        images: {},
+                        images: product.images,
                         name: product.name,
                         price: product.price,
                         sale: product.sale

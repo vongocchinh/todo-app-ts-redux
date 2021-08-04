@@ -24,7 +24,7 @@ const Home: React.FC<HomeInterface> = () => {
         price: 0,
         description: '',
         brand: '',
-        images: {},
+        images: "",
         sale: 0
 
     });
@@ -87,6 +87,7 @@ const Home: React.FC<HomeInterface> = () => {
                             <p>Name</p>
                             <p>Price</p>
                             <p onClick={() => dispatch(countSizeProductNumber(115))} >Des</p>
+                            <p>Img</p>
                         </div>
                         <div className="div-3">
                             <p onClick={() => dispatch(CountAction(count))}>Option</p>
@@ -100,7 +101,7 @@ const Home: React.FC<HomeInterface> = () => {
                         })}
                     </div>
                 </div>
-                <Cart />
+                {/* <Cart /> */}
             </div>
         </div>
     )

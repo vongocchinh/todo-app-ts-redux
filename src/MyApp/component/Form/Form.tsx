@@ -5,7 +5,7 @@ import { useAppDispatch } from './../../reducer/store.hooks';
 import { ADD_Product_ASYNC,  Update_Product_ASYNC } from '../../reducer/Product/action.product';
 
 interface FormInterface{
-data:ProductModel
+data:ProductModel,
 }
 
 
@@ -18,7 +18,7 @@ data:ProductModel
         images:{},
         sale:0
     })
-    const [img, setImg] = useState({});
+    const [img, setImg] = useState<any>();
     useEffect(() => {
         if(data._id){
             setInput({

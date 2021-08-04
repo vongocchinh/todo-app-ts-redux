@@ -34,6 +34,7 @@ interface ItemTS{
                 <p>{value.name}</p>
                 <p>{value.price}</p>
                 <p>{value.description}</p>
+                <img src={value.images} alt="" />
             </div>
             <div className="div-2"><p onClick={onClickUpdate}>{iconEdit}</p><p onClick={onDelete}>{myIcon}</p><p onClick={addCArt}>{myIconCart}</p></div>
         </div>

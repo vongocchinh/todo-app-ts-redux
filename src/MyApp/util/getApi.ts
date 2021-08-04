@@ -5,8 +5,9 @@ export default function GET_API(adPoint:string,method: any ,body:object | null){
         method: method,
         url: "http://localhost:3001"+adPoint,
         headers: {
+            // 'Content-Type': 'multipart/form-data',
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
           },
         data: body,
     }).catch(er=>{

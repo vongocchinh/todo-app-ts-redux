@@ -5,7 +5,7 @@ export interface ProductModel {
     description: string,
     brand:string,
     sale:number,
-    images:object 
+    images:string 
 }
 
 export interface ProductModelAdd {
@@ -14,7 +14,7 @@ export interface ProductModelAdd {
     description: string,
     brand:string,
     sale:number,
-    images:object 
+    images:string 
 }
 
 
