@@ -134,7 +134,7 @@ input[type="reset"]{
 
 .list-item{
     width: 100%;
-    height: 200px;
+    height: 400px;
     overflow-y: auto;
     margin-top: 10px;
 }

@@ -12,7 +12,7 @@ import { addCart } from '../../reducer/Cart/Cart';
 import { toast } from 'react-toastify';
 import Item from '../Item/Item';
 import {  DELETE_Product_ASYNC, GET_DATA_PRODUCT_ASYNC } from './../../reducer/Product/action.product';
-import Cart from './../Cart/Cart';
+// import Cart from './../Cart/Cart';
 interface HomeInterface {
 }
 
