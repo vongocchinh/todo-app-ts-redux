@@ -1,6 +1,6 @@
 import React from 'react'
 import DeleteIcon from '@material-ui/icons/Delete';
-import { CartModel } from './../../reducer/Cart/Cart';
+// import { CartModel } from './../../reducer/Cart/Cart';
 let myIcon: React.ReactElement<typeof DeleteIcon> = <DeleteIcon fontSize="small" color="primary" />;
 
 interface ItemTS{
@@ -9,7 +9,7 @@ removeCart:removeCart
 }
 const Item:React.FC<ItemTS>=({value,removeCart})=> {
     const ONDELETE = () => {
-        removeCart(value.id)
+        removeCart(value._id)
     }
     return (
         <div className="item">

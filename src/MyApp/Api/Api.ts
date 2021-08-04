@@ -1,36 +1,97 @@
 
-import { ProductModel } from '../reducer/Product/Product';
+import { ProductModel, ProductModelAdd } from '../reducer/Product/type.product';
+import GET_API from './../util/getApi';
 
 
-
-export const validateProductModel=(product:ProductModel):Promise<ProductModel>=>new Promise((resolve,reject)=>{
-    setTimeout(() => {
-        if(product.name===''){
-            reject('Thất Bai 201');
-        }else
-        if(product.name&&product.name.length>0){
-            // reject("ok 200")productprod
+export const GET_PRODUCT = (): Promise<ProductModel[]> => new Promise((resolve, reject) => {
+    GET_API('/product', 'GET', null).then((res: any) => {
+        if (res.status === 200) {
+            let data: ProductModel[] = [];
+            res.data.forEach((e: ProductModel) => {
+                var product: ProductModel = {
+                    _id: e._id,
+                    brand: e.brand,
+                    description: e.description,
+                    images: e.images,
+                    name: e.name,
+                    price: e.price,
+                    sale: e.sale
+                }
+                data.push(product)
+            });
+            resolve(data);
         }
-        resolve(product);
-    }, 500);
+    });
 })
 
 
-export const validationDeleteProduct=(id:string):Promise<string> =>new Promise((resolve,reject)=>{
-    setTimeout(() => {
-        if(id===''){
-            reject('Mess error');
-        }
-        resolve(id);
-    }, 500);
+
+
+
+export const validateProductModelAdd = (product: ProductModelAdd): Promise<ProductModel> => new Promise((resolve, reject) => {
+    if (product) {
+        GET_API("/product", 'POST', {
+            brand: product.brand,
+            description: product.description,
+            images: product.images,
+            name: product.name,
+            price: product.price,
+            sale: product.sale
+        }).then((res: any) => {
+            if (res.status === 200) {
+                // resolve()
+                var product: ProductModel = {
+                    _id: res.data._id,
+                    brand: res.data.brand,
+                    description: res.data.description,
+                    images: {},
+                    name: res.data.name,
+                    price: res.data.price,
+                    sale: res.data.sale
+                }
+                resolve(product)
+            }
+        });
+    }
 })
 
 
-export const validationUpdate=(product:ProductModel):Promise<ProductModel>=> new Promise((resolve,reject)=>{
-    setTimeout(() => {
-        if(product.id===''){
-            reject("error 2001")
+
+
+
+export const validationDeleteProduct = (_id: string): Promise<string> => new Promise((resolve, reject) => {
+    if (_id) {
+        GET_API(`/product/${_id }`, 'DELETE', null).then((res: any) => {
+            if (res.status === 200) {
+                   resolve(_id);
+            }
+        })
+    }
+})
+
+
+export const validationUpdate = (product: ProductModel): Promise<ProductModel> => new Promise((resolve, reject) => {
+        if(product){
+            GET_API(`/product/${product._id}`,'PUT',{
+                _id: product._id,
+                brand: product.brand,
+                description: product.description,
+                images: {},
+                name: product.name,
+                price: product.price,
+                sale: product.sale
+            }).then((res:any)=>{
+                if(res.status===200){
+                    resolve({
+                        _id: product._id,
+                        brand: product.brand,
+                        description: product.description,
+                        images: {},
+                        name: product.name,
+                        price: product.price,
+                        sale: product.sale
+                    });
+                }
+            })
         }
-        resolve(product);
-    }, 500);
 })

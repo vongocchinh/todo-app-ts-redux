@@ -20,7 +20,7 @@ interface ItemTS{
  const Item:React.FC<ItemTS>=({value,addCart,OnDelete,onUpdate})=> {
 
     const onDelete = () => {
-        OnDelete(value.id);
+        OnDelete(value._id);
     }
     const addCArt = () => {
         addCart(value);
@@ -33,7 +33,7 @@ interface ItemTS{
             <div className="div">
                 <p>{value.name}</p>
                 <p>{value.price}</p>
-                <p>{value.des}</p>
+                <p>{value.description}</p>
             </div>
             <div className="div-2"><p onClick={onClickUpdate}>{iconEdit}</p><p onClick={onDelete}>{myIcon}</p><p onClick={addCArt}>{myIconCart}</p></div>
         </div>

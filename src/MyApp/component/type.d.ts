@@ -1,11 +1,28 @@
 
 
 type ProductModel={
-    id:string,
-    name:string,
-    price:number,
-    des:string
+    _id: string,
+    name: string,
+    price: number,
+    description: string,
+    brand:string,
+    sale:number,
+    images:object
 }
+
+type ProductModelAdd={
+    name: string,
+    price: number,
+    description: string,
+    brand:string,
+    sale:number,
+    images:object
+}
+interface CartModel extends ProductModel{
+    id_cart:string,
+    amount:number
+}
+
 
 type onAddCart=(product:ProductModel)=>void;
 

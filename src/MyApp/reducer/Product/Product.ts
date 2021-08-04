@@ -1,88 +1,20 @@
-import { createSlice, createAsyncThunk, PayloadAction, createEntityAdapter } from '@reduxjs/toolkit'
+import { createSlice,  PayloadAction, createEntityAdapter } from '@reduxjs/toolkit'
 import { AppThunk, RootState } from '../store';
-import * as API from '../../Api/Api';
+
+import {ProductModel,InitialState,ValidationDeleteProduct,ValidationProduct,ValidationUpdateProduct} from './type.product';
 
 
-export interface ProductModel {
-    id: string,
-    name: string,
-    price: number,
-    des: string
-}
-
-export enum ValidationProduct {
-    Fulfilled,
-    Pending,
-    Reject
-}
+import {ADD_Product_ASYNC,DELETE_Product_ASYNC,GET_DATA_PRODUCT_ASYNC,Update_Product_ASYNC} from './action.product'
 
 
-export enum ValidationDeleteProduct {
-    Fulfilled,
-    Pending,
-    Reject
-}
 
-export enum ValidationUpdateProduct {
-    Fulfilled,
-    Pending,
-    Reject
-}
-
-// interface InitialState{
-//     Products:ProductModel[],
-//     validationProduct?:ValidationProduct,
-//     validationDeleteProduct?:ValidationDeleteProduct,
-//     validationUpdateProduct?:ValidationUpdateProduct,
-//     messageError?:string
-// }
-
-interface InitialState {
-    // Products:ProductModel[],
-    validationProduct?: ValidationProduct,
-    validationDeleteProduct?: ValidationDeleteProduct,
-    validationUpdateProduct?: ValidationUpdateProduct,
-    messageError?: string
-}
-
-
-export const ADD_Product_ASYNC = createAsyncThunk(
-    "Products/addProduct",
-    async (Product: ProductModel) => {
-        var result = await API.validateProductModel(Product);
-
-
-        return result as ProductModel;
-    })
-
-
-export const DELETE_Product_ASYNC = createAsyncThunk("Products/deleteProduct", async (id: string) => {
-    var result = await API.validationDeleteProduct(id);
-    // console.log(result);
-    return result as string;
-})
-
-
-export const Update_Product_ASYNC = createAsyncThunk('Products/updateProduct', async (product: ProductModel) => {
-    var result = await API.validationUpdate(product);
-    return result as ProductModel;
-})
 
 const data: ProductModel[] = [
-    { id: '1', name: "product 1", price: 1000, des: "Mới" },
-    { id: '2', name: "product 2", price: 1000, des: "Mới" }
 ]
-
-
-// const initialState:InitialState={
-//     Products:data,
-//     validationProduct:undefined,
-//     messageError:undefined
-// }
 
 const productAdapter = createEntityAdapter<ProductModel>(
     {
-        selectId: state => state.id,
+        selectId: state => state._id,
         sortComparer: (a, b) => a.name.localeCompare(b.name),
     }
 );
@@ -123,31 +55,22 @@ const ProductSlice = createSlice({
             state.validationUpdateProduct = undefined;
         },
         countSizeProduct: (state, action: PayloadAction<number[]>) => {
-            // console.log(action.payload);
-            // console.log(action.type);
         },
         countSizeProductNumber: (state, action: PayloadAction<number>) => {
-            // console.log(action.payload);
-            // console.log(action.type);
-            // let arr = productAdapter.getSelectors().selectById(state, '1');
-            // console.log(arr);
         },
         updateProductThunk: (state, action: PayloadAction<ProductModel>) => {
             productAdapter.upsertOne(state, action.payload)
+        },
+        GET_DATA_PRODUCT_ASYNC:(state,action:PayloadAction<ProductModel[]>)=>{
+            productAdapter.upsertMany(state,action.payload);
         }
 
     },
     extraReducers: builder => {
-        builder.addCase(ADD_Product_ASYNC.fulfilled, (state, action) => {
-            // return {
-            //     ...state,
-            //     validationProduct:ValidationProduct.Fulfilled,
-            //     messageError:undefined,
-            //     Products:[...state.Products,action.payload]
-            // }
-            productAdapter.upsertOne(state, action.payload);
+        builder.addCase(ADD_Product_ASYNC.fulfilled, (state, action : PayloadAction<ProductModel> ) => {
             state.validationProduct = ValidationProduct.Fulfilled;
             state.messageError = undefined;
+            productAdapter.addOne(state,action.payload);
         });
         builder.addCase(ADD_Product_ASYNC.pending, (state, action) => {
             return {
@@ -170,13 +93,12 @@ const ProductSlice = createSlice({
                 messageError: undefined
             }
         });
-        builder.addCase(DELETE_Product_ASYNC.fulfilled, (state, action) => {
+        builder.addCase(DELETE_Product_ASYNC.fulfilled, (state, action : PayloadAction<string> ) => {
             // var index=state.Products.findIndex(v=>v.id===action.payload);
             // var Products=state.Products;
             // if(index!==-1){
             //     Products.splice(index,1)
             // }
-            // console.log(action.payload);
             productAdapter.removeOne(state, action.payload);
             state.validationDeleteProduct = ValidationDeleteProduct.Fulfilled
             state.messageError = undefined
@@ -191,6 +113,9 @@ const ProductSlice = createSlice({
             state.messageError = undefined;
             state.validationUpdateProduct = ValidationUpdateProduct.Fulfilled
         });
+        builder.addCase(GET_DATA_PRODUCT_ASYNC.fulfilled,(state,action: PayloadAction<ProductModel[]>)=>{
+            productAdapter.upsertMany(state,action.payload);
+        })
     }
 });
 
@@ -225,13 +150,6 @@ export interface ObjectCount {
 export const CountAction = (count: ObjectCount): AppThunk => (dispatch, getState) => {
     const sizeProduct = (selectByProductID(getState(), '1'));
     if (sizeProduct) {
-        var sizeProducts: ProductModel = {
-            id: sizeProduct.id,
-            name: sizeProduct.name,
-            des: sizeProduct.des,
-            price: sizeProduct.price * 5000
-        };
-        dispatch(updateProductThunk(sizeProducts))
     }
 };
 

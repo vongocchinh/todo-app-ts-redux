@@ -1,12 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid';
 import { RootState } from '../store';
-import  { ProductModel } from '../Product/Product';
+import { CartModel } from './type.cart';
 
-export interface CartModel extends ProductModel{
-    id_cart:string,
-    amount:number
-}
+
+
+
+
 const data:CartModel[]=[];
 
 
@@ -16,7 +16,7 @@ const CartSlice=createSlice({
     initialState:data,
     reducers:{
         addCart:(state,action)=>{
-            var index = state.findIndex(v=>v.id===action.payload.id);
+            var index = state.findIndex(v=>v._id===action.payload._id);
             if(index===-1){
                 var id:string=nanoid();
                 state.push({...action.payload,amount:1,id_cart:id})
@@ -25,7 +25,7 @@ const CartSlice=createSlice({
             }
         },
         removeCartID:(state,action)=>{
-            var index = state.findIndex(v=>v.id===action.payload);
+            var index = state.findIndex(v=>v._id===action.payload);
             if(index!==-1){
                 state.splice(index,1);
             }

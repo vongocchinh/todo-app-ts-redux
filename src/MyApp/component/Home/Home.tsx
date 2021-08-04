@@ -3,36 +3,41 @@ import './styles.css';
 import Form from './../Form/Form';
 
 import { useSelector } from 'react-redux'
-import {  CountAction, countSizeProductNumber, GET_VALIDATION_DELETE_Product, GET_VALIDATION_UPDATE_PRODUCT, ObjectCount, selectAllProduct,  selectProductIds,  setValidationAddProduct, setValidationDeleteProduct, setValidationUpdateProduct } from '../../reducer/Product/Product';
+import {
+    CountAction, countSizeProductNumber, GET_VALIDATION_DELETE_Product, GET_VALIDATION_Product, GET_VALIDATION_UPDATE_PRODUCT, ObjectCount, selectAllProduct
+    , setValidationAddProduct, setValidationDeleteProduct, setValidationUpdateProduct
+} from '../../reducer/Product/Product';
 import { useAppDispatch, useAppSelector } from './../../reducer/store.hooks';
 import { addCart } from '../../reducer/Cart/Cart';
 import { toast } from 'react-toastify';
 import Item from '../Item/Item';
-import { GET_VALIDATION_Product, DELETE_Product_ASYNC } from './../../reducer/Product/Product';
+import {  DELETE_Product_ASYNC, GET_DATA_PRODUCT_ASYNC } from './../../reducer/Product/action.product';
 import Cart from './../Cart/Cart';
-// import { RootState } from '../../reducer/store';
-
 interface HomeInterface {
 }
 
 
 const Home: React.FC<HomeInterface> = () => {
-    const [data, setData] = useState({
-        id:'',
-        name:'',
-        price:0,
-        des:''
+    const [data, setData] = useState<ProductModel>({
+        _id: '',
+        name: '',
+        price: 0,
+        description: '',
+        brand: '',
+        images: {},
+        sale: 0
+
     });
-    // const ProductStore = useSelector(GetALLDataProduct);
+
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(GET_DATA_PRODUCT_ASYNC())
+    }, [dispatch])
     const ProductStore = useSelector(selectAllProduct);
-    const SEID=useAppSelector(selectProductIds);
-    console.log(SEID);
-    
-    // const PID=useSelector<RootState>(state=>selectByProductID(state,'1'))
+
     const VALIDATION = useAppSelector(GET_VALIDATION_Product);
     const VALIDATION_DELETE = useAppSelector(GET_VALIDATION_DELETE_Product);
-    const VALIDATION_UPDATE=useAppSelector(GET_VALIDATION_UPDATE_PRODUCT);
-    const dispatch = useAppDispatch();
+    const VALIDATION_UPDATE = useAppSelector(GET_VALIDATION_UPDATE_PRODUCT);
     useEffect(() => {
         if (VALIDATION === 0) {
             toast.info("ADD Product SUCCESS");
@@ -42,63 +47,62 @@ const Home: React.FC<HomeInterface> = () => {
             toast.info("DELETE SUCCESS");
             dispatch(setValidationDeleteProduct(''));
         }
-        if(VALIDATION_UPDATE===0){
+        if (VALIDATION_UPDATE === 0) {
             toast.info("Update success");
             dispatch(setValidationUpdateProduct(''))
         }
-    }, [VALIDATION,VALIDATION_DELETE,VALIDATION_UPDATE,dispatch])
+    }, [VALIDATION, VALIDATION_DELETE, VALIDATION_UPDATE, dispatch])
 
-    const OnDelete = (id: string) => {
-        dispatch(DELETE_Product_ASYNC(id));
+    const OnDelete: onDeleteProduct = (_id: string) => {
+        dispatch(DELETE_Product_ASYNC(_id));
     }
-    const addCArt = (product: ProductModel) => {
+    const addCArt: onAddCart = (product: ProductModel) => {
         var cart = {
-            id: product.id,
+            _id: product._id,
             name: product.name,
         }
         dispatch(addCart(cart));
     }
-    const onUpdate=(product:ProductModel)=>{
+    const onUpdate: onUpdate = (product: ProductModel) => {
         setData({
-            name:product.name,
-            price:product.price,
-            id:product.id,
-            des:product.des
+            name: product.name,
+            price: product.price,
+            _id: product._id,
+            brand: product.brand,
+            description: product.description,
+            images: product.images,
+            sale: product.sale
+
         })
     }
-
-    const count:ObjectCount={count:10}
+    const count: ObjectCount = { count: 10 }
     return (
         <div>
-            <h2 style={{textAlign:"center",marginTop:"50px"}}>APP TODO LIST</h2>
+            <h2 style={{ textAlign: "center", marginTop: "50px" }}>APP TODO LIST</h2>
             <div className="container">
-            <Form data={data} />
-            <div className="list">
-                <div className="title">
-                    <div className="div">
-                        <p>Name</p>
-                        <p>Price</p>
-                        <p onClick={()=>dispatch(countSizeProductNumber(115))} >Des</p>
+                <Form data={data} />
+                <div className="list">
+                    <div className="title">
+                        <div className="div">
+                            <p>Name</p>
+                            <p>Price</p>
+                            <p onClick={() => dispatch(countSizeProductNumber(115))} >Des</p>
+                        </div>
+                        <div className="div-3">
+                            <p onClick={() => dispatch(CountAction(count))}>Option</p>
+                        </div>
                     </div>
-                    <div className="div-3">
-                        <p onClick={()=>dispatch(CountAction(count))}>Option</p>
+                    <div className="list-item">
+                        {ProductStore.map((value, key) => {
+                            return (
+                                <Item addCart={addCArt} onUpdate={onUpdate} OnDelete={OnDelete} value={value} key={key} />
+                            )
+                        })}
                     </div>
                 </div>
-                <div className="list-item">
-                    {ProductStore.map((value, key) => {
-                        return (
-                            <Item addCart={addCArt} onUpdate={onUpdate} OnDelete={OnDelete} value={value} key={key} />
-                        )
-                    })}
-                </div>
+                <Cart />
             </div>
-
-            <Cart />
-
-        </div>
         </div>
     )
 }
-
-
 export default Home;
